@@ -1,128 +1,108 @@
-// gamemode , enter username name
-var gameMode = 'enter username mode';
-
-// store username
-var userNameOfThePlayer = '';
-
-// random number from 0 to 2
-var randomNum = function () {
-  var numZeroToTwo = Math.floor(Math.random() * 3);
-  return numZeroToTwo;
+var optionsAndEmoji = {
+  scissors: "scissors ✌",
+  paper: "paper ✋",
+  stone: "stone ✊",
 };
 
-// user win
-var numOfUserWin = 0;
+var mode = "normal";
+var randomizeObject = function () {
+  var randomDecimal = Math.random() * 3;
+  var randomInteger = Math.floor(randomDecimal);
+  var message = "";
+  if (randomInteger == 0) {
+    message = "scissors";
+    return message;
+  } else if (randomInteger == 1) {
+    message = "paper";
+    return message;
+  } else randomInteger == 2;
+  message = "stone";
+  return message;
+};
 
-// computer win
-var numOfComputerWin = 0;
-
-// total game
-var totalMatch = 0;
-
-// winning percentage
-var userWinPercentage = 0;
-var computerWinPercentage = 0;
-
-// number of draw
-var numOfDraw = 0;
-
-// assign value to words
-var assignNumberToWords = function () {
-  var numGenerator = randomNum();
-  if (numGenerator == 0) {
-    return 'scissors';
+var winningconditions = function (
+  assignedNumToScissorsPaperStone,
+  input,
+  scissors,
+  paper,
+  stone
+) {
+  if (input == assignedNumToScissorsPaperStone) {
+    console.log("draw");
+    myOutputValue =
+      "The computer chose " +
+      optionsAndEmoji[assignedNumToScissorsPaperStone] +
+      "<br>" +
+      "You chose " +
+      optionsAndEmoji[input] +
+      "<br>You Draw!" +
+      "<br>Now you can type scissors paper or stone to play another round!";
+    return myOutputValue;
+  } else if (
+    (input == "scissors" && assignedNumToScissorsPaperStone == paper) ||
+    (input == "stone" && assignedNumToScissorsPaperStone == scissors) ||
+    (input == "paper" && assignedNumToScissorsPaperStone == stone)
+  ) {
+    myOutputValue =
+      "The computer chose " +
+      optionsAndEmoji[assignedNumToScissorsPaperStone] +
+      "<br>" +
+      "You chose " +
+      optionsAndEmoji[input] +
+      "<br>You Win!" +
+      "<br>Now you can type scissors paper or stone to play another round!";
+    return myOutputValue;
+  } else {
+    myOutputValue =
+      "The computer chose " +
+      optionsAndEmoji[assignedNumToScissorsPaperStone] +
+      "<br>" +
+      "You chose " +
+      optionsAndEmoji[input] +
+      "<br>You Lose!" +
+      "<br>Now you can type scissors paper or stone to play another round!";
+    return myOutputValue;
   }
-  if (numGenerator == 1) {
-    return 'stone';
-  }
-  if (numGenerator == 2) {
-    return 'paper';
-  }
-  return 'got bug';
 };
 
 var main = function (input) {
-  var myOutputValue = 'Please enter one of the 3 options. scissors , paper , stone';
-
-  // do this if gamemode is 'enter username mode.
-  if (gameMode == 'enter username mode') {
-    // store input as username
-    userNameOfThePlayer = input;
-    // change game mode to start game.
-    gameMode = 'start game';
-    myOutputValue = 'Welcome ,' + userNameOfThePlayer
-    + ' . Please enter one of the 3 objects. scissors , paper , stone';
-    // if gamemode is start game  run this code
+  var scissors = "scissors";
+  var paper = "paper";
+  var stone = "stone";
+  var myOutputValue = "bug";
+  if (input == "reversed") {
+    mode = "reversed";
   }
-  // if gamemode is start game run this code
-  else if (gameMode == 'start game') {
-    // if condition is true , result will either be draw , win or lose .
-    // Otherwise it will prompt user to enter the correct input
-    if ((input == 'scissors' || input == 'stone' || input == 'paper') == true) {
-      var scissorsPaperStoneObject = assignNumberToWords();
-      console.log('scissor-paper-stone');
-
-      // If both parties choose the same object, it's a draw.
-      if (input == scissorsPaperStoneObject) {
-        numOfDraw = numOfDraw + 1;
-        myOutputValue = userNameOfThePlayer + ' choose ' + input + '<br>'
-       + ' Computer choose ' + scissorsPaperStoneObject
-       + '<br>' + '<br>'
-       + 'Draw!! ' + '<br>'
-       + userNameOfThePlayer + ' draw ' + numOfDraw + ' times. ' + '<br>'
-       + userNameOfThePlayer + ' win ' + numOfUserWin + ' times ' + userWinPercentage + '%.' + '<br>'
-       + 'Computer win ' + numOfComputerWin + ' times ' + computerWinPercentage + '%';
-
-        console.log(userNameOfThePlayer + 'choose');
-        console.log(input);
-        console.log('Computer choose');
-        console.log(scissorsPaperStoneObject);
-        console.log('draw!');
-      }
-
-      // condition of winning = rock > scissor , paper > stone , scissors > paper
-      else if (input == 'stone' && scissorsPaperStoneObject == 'scissors'
-        || input == 'paper' && scissorsPaperStoneObject == 'stone'
-        || input == 'scissors' && scissorsPaperStoneObject == 'paper') {
-        totalMatch = totalMatch + 1;
-        numOfUserWin = numOfUserWin + 1;
-        userWinPercentage = (numOfUserWin / totalMatch) * 100;
-        computerWinPercentage = (numOfComputerWin / totalMatch) * 100;
-        myOutputValue = userNameOfThePlayer + ' choose ' + input + '<br>'
-       + ' Computer choose ' + scissorsPaperStoneObject
-       + '<br>' + '<br>'
-       + userNameOfThePlayer + ' win ' + numOfUserWin + ' times ' + userWinPercentage + '%.' + '<br>'
-       + ' Computer win ' + numOfComputerWin + ' times ' + computerWinPercentage + '%.' + '<br>'
-       + userNameOfThePlayer + ' draw ' + numOfDraw + ' times.';
-
-        console.log(userNameOfThePlayer + 'choose');
-        console.log(input);
-        console.log('Computer choose');
-        console.log(scissorsPaperStoneObject);
-        console.log(userNameOfThePlayer + ' win ');
-      }
-      // if not draw or win , the program will run this code which mean the player lose the game .
-      else {
-        numOfComputerWin = numOfComputerWin + 1;
-        totalMatch = totalMatch + 1;
-        userWinPercentage = (numOfUserWin / totalMatch) * 100;
-        computerWinPercentage = (numOfComputerWin / totalMatch) * 100;
-        myOutputValue = userNameOfThePlayer + ' choose ' + input + '<br>'
-       + ' Computer choose ' + scissorsPaperStoneObject
-       + '<br>' + '<br>'
-       + userNameOfThePlayer
-       + ' lose.' + '<br>'
-       + 'Computer win ' + numOfComputerWin + ' times ' + computerWinPercentage + '%. ' + '<br>'
-       + userNameOfThePlayer + ' win ' + numOfUserWin + ' times ' + userWinPercentage + '%.' + '<br>'
-       + userNameOfThePlayer + '  draw ' + numOfDraw + ' times.';
-
-        console.log(userNameOfThePlayer + 'choose');
-        console.log(input);
-        console.log('Computer choose');
-        console.log(scissorsPaperStoneObject);
-        console.log(userNameOfThePlayer + ' lose');
-      }
-    }
+  if (input == "normal") {
+    mode = "normal";
   }
-  return myOutputValue;
+  // type in the options available or else show message in line 106
+  if (input == "scissors" || input == "paper" || input == "stone") {
+    var assignedNumToScissorsPaperStone = randomizeObject();
+    console.log(assignedNumToScissorsPaperStone);
+    console.log(optionsAndEmoji[input]);
+    //swap the position of the parameter for scissors paper stone for reservsed mode
+    // scissor beat stone , stone beat paper and paper beat scissors
+    if (mode == "reversed") {
+      myOutputValue = winningconditions(
+        assignedNumToScissorsPaperStone,
+        input,
+        paper,
+        stone,
+        scissors
+      );
+      return myOutputValue;
+    } // default game logic , scissors beat paper , paper beat stone and stone beat scissors
+    myOutputValue = winningconditions(
+      assignedNumToScissorsPaperStone,
+      input,
+      scissors,
+      paper,
+      stone
+    );
+    return myOutputValue;
+  } else {
+    myOutputValue = "Please enter 1 of the options: scissors paper stone";
+    return myOutputValue;
+  }
 };
